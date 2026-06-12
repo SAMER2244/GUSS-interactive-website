@@ -104,9 +104,7 @@ export default function ParticleBackground() {
     initParticles();
     animate();
 
-    window.addEventListener('resize', () => {
-      resize();
-    });
+    window.addEventListener('resize', resize);
 
     return () => {
       if (animationIdRef.current) {

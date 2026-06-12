@@ -3,13 +3,16 @@ import './DarkModeToggle.css';
 
 export default function DarkModeToggle() {
   const [theme, setTheme] = useState(() => {
-    // Read from localStorage or system preferences
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('theme');
-      if (saved) return saved;
-      
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      return prefersDark ? 'dark' : 'light';
+    try {
+      if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('theme');
+        if (saved) return saved;
+        
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return prefersDark ? 'dark' : 'light';
+      }
+    } catch (e) {
+      console.warn('LocalStorage is not accessible:', e);
     }
     return 'light';
   });
@@ -18,10 +21,18 @@ export default function DarkModeToggle() {
     const root = document.documentElement;
     if (theme === 'dark') {
       root.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
+      try {
+        localStorage.setItem('theme', 'dark');
+      } catch (e) {
+        console.warn('LocalStorage is not accessible:', e);
+      }
     } else {
       root.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
+      try {
+        localStorage.setItem('theme', 'light');
+      } catch (e) {
+        console.warn('LocalStorage is not accessible:', e);
+      }
     }
   }, [theme]);
 

@@ -1,0 +1,204 @@
+/* ===================================================
+   ChallengeSection — تحدي المقيم الذكي
+   Card selection section
+   =================================================== */
+
+.challenge-section {
+  background: linear-gradient(
+    175deg,
+    var(--color-cream) 0%,
+    var(--color-gradient-mid, #eef5ef) 50%,
+    var(--color-cream) 100%
+  );
+  padding-block: var(--space-4xl);
+  padding-inline: var(--space-lg);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* --- Title with golden glow --- */
+.challenge-section__title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--color-forest);
+  margin-block-end: var(--space-sm);
+  text-shadow:
+    0 0 12px rgba(212, 168, 67, 0.35),
+    0 0 32px rgba(212, 168, 67, 0.15);
+}
+
+.challenge-section__subtitle {
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
+  max-width: 640px;
+  margin-inline: auto;
+  margin-block-end: var(--space-3xl);
+  line-height: var(--line-height-relaxed);
+}
+
+/* --- Cards container --- */
+.challenge-section__cards {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--space-xl);
+  flex-wrap: wrap;
+  max-width: 820px;
+  margin-inline: auto;
+}
+
+/* --- Individual card --- */
+.challenge-card {
+  position: relative;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  max-width: 360px;
+  width: 100%;
+  box-shadow: var(--shadow-md);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.challenge-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-glow-gold), var(--shadow-lg);
+  border-color: var(--color-gold);
+}
+
+.challenge-card:active {
+  transform: translateY(-4px) scale(1.01);
+}
+
+.challenge-card:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 4px;
+  border-radius: var(--radius-lg);
+}
+
+/* Inner wrapper */
+.challenge-card__inner {
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+/* --- Icon --- */
+.challenge-card__icon {
+  font-size: 4rem;
+  line-height: 1;
+  margin-block-end: var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 6rem;
+  height: 6rem;
+  border-radius: var(--radius-full);
+  background: radial-gradient(
+    circle at center,
+    rgba(212, 168, 67, 0.12) 0%,
+    rgba(212, 168, 67, 0.03) 70%,
+    transparent 100%
+  );
+  flex-shrink: 0;
+}
+
+/* --- Card text --- */
+.challenge-card__title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-forest);
+  margin-block-end: var(--space-2xs);
+}
+
+.challenge-card__subtitle {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-forest-light);
+  margin-block-end: var(--space-md);
+}
+
+.challenge-card__brief {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  margin-block-end: var(--space-xl);
+  flex: 1;
+}
+
+/* --- CTA text --- */
+.challenge-card__cta {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-gold);
+  transition: color var(--transition-fast), gap var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-block-start: auto;
+}
+
+.challenge-card:hover .challenge-card__cta {
+  color: var(--color-forest);
+  gap: var(--space-sm);
+}
+
+.challenge-card__cta-arrow {
+  display: inline-block;
+  transition: transform var(--transition-fast);
+}
+
+/* In RTL the arrow points left, so we flip it */
+.challenge-card:hover .challenge-card__cta-arrow {
+  transform: translateX(-4px);
+}
+
+/* --- Reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .challenge-card {
+    transition: none;
+  }
+
+  .challenge-card:hover {
+    transform: none;
+  }
+
+  .challenge-card:hover .challenge-card__cta-arrow {
+    transform: none;
+  }
+}
+
+/* --- Responsive: mobile stacking --- */
+@media (max-width: 767px) {
+  .challenge-section {
+    padding-block: var(--space-3xl);
+    padding-inline: var(--space-md);
+  }
+
+  .challenge-section__title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .challenge-section__subtitle {
+    font-size: var(--font-size-base);
+    margin-block-end: var(--space-2xl);
+  }
+
+  .challenge-section__cards {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .challenge-card {
+    max-width: 100%;
+    padding: var(--space-xl);
+  }
+}

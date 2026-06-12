@@ -1,0 +1,282 @@
+/* ===== Hero Section ===== */
+.hero-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--space-xl) var(--space-md);
+  background: linear-gradient(160deg, #0D1B12 0%, #1B4332 40%, #2D6A4F 100%);
+  overflow: hidden;
+  font-family: var(--font-family);
+  text-align: center;
+}
+
+/* ===== Hero Content (above particles) ===== */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  max-width: 720px;
+  width: 100%;
+}
+
+/* ===== Logo Wrapper & Glow ===== */
+.hero-logo-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(245, 241, 232, 0.22) 0%,
+    rgba(212, 168, 67, 0.08) 50%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  margin-block-end: var(--space-sm);
+}
+
+/* ===== Logo ===== */
+.hero-logo {
+  max-width: 150px;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transform: scale(0.5);
+  animation: logoReveal 1s ease-out 0.3s forwards;
+  filter: drop-shadow(0 0 20px rgba(212, 168, 67, 0.35));
+}
+
+@keyframes logoReveal {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 16px rgba(212, 168, 67, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(212, 168, 67, 0.55));
+  }
+}
+
+.hero-logo.visible {
+  animation: logoReveal 1s ease-out forwards, logoPulse 3s ease-in-out 1.3s infinite;
+}
+
+/* ===== Title ===== */
+.hero-title {
+  color: var(--color-white);
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: var(--font-family);
+  line-height: 1.4;
+  margin: 0;
+  min-height: 1.4em;
+  direction: rtl;
+}
+
+.hero-title-char {
+  display: inline;
+  opacity: 0;
+}
+
+.hero-title-char.revealed {
+  opacity: 1;
+}
+
+/* ===== Slogan ===== */
+.hero-slogan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-block-start: -5px;
+  margin-block-end: var(--space-xs);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hero-slogan.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-slogan-word {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  text-shadow: 0 0 10px rgba(212, 168, 67, 0.4);
+  letter-spacing: 0.05em;
+}
+
+.hero-slogan-dot {
+  font-size: var(--font-size-md);
+  color: var(--color-white);
+  opacity: 0.6;
+}
+
+/* ===== Subtitle ===== */
+.hero-subtitle {
+  color: rgba(245, 241, 232, 0.8);
+  font-size: 1.15rem;
+  font-weight: 400;
+  font-family: var(--font-family);
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hero-subtitle.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== CTA Button ===== */
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-2xl);
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+  color: var(--color-forest);
+  font-family: var(--font-family);
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+}
+
+.hero-cta.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-cta:hover {
+  box-shadow: var(--shadow-glow-gold), var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.hero-cta:active {
+  transform: translateY(-1px);
+}
+
+.hero-cta:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 3px;
+}
+
+/* ===== Bouncing Arrow ===== */
+.hero-arrow {
+  position: absolute;
+  bottom: var(--space-2xl);
+  inset-inline: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.hero-arrow.visible {
+  opacity: 1;
+}
+
+.hero-arrow-icon {
+  width: 28px;
+  height: 28px;
+  color: rgba(245, 241, 232, 0.5);
+  animation: bounceArrow 2s ease-in-out infinite;
+}
+
+@keyframes bounceArrow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+/* ===== Desktop Breakpoint ===== */
+@media (min-width: 768px) {
+  .hero-logo {
+    max-width: 180px;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .hero-cta {
+    font-size: 1.2rem;
+    padding: var(--space-md) var(--space-3xl);
+  }
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .hero-logo {
+    animation: none;
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 16px rgba(212, 168, 67, 0.25));
+  }
+
+  .hero-logo.visible {
+    animation: none;
+  }
+
+  .hero-title-char {
+    opacity: 1;
+  }
+
+  .hero-subtitle {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-slogan {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-cta {
+    transition: box-shadow 0.3s ease;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-cta:hover {
+    transform: none;
+  }
+
+  .hero-arrow-icon {
+    animation: none;
+  }
+}

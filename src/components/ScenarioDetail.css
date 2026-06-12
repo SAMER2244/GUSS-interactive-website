@@ -1,0 +1,468 @@
+/* ===================================================
+   ScenarioDetail — تفاصيل السيناريو
+   Tabbed detail view for a selected challenge
+   =================================================== */
+
+/* --- Enter animation --- */
+@keyframes scenario-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scenario-detail {
+  background: linear-gradient(
+    180deg,
+    var(--color-white) 0%,
+    var(--color-cream) 100%
+  );
+  padding-block: var(--space-3xl);
+  padding-inline: var(--space-lg);
+  min-height: 80dvh;
+  animation: scenario-enter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.scenario-detail__container {
+  max-width: 820px;
+  margin-inline: auto;
+}
+
+/* --- Back button --- */
+.scenario-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  background: transparent;
+  color: var(--color-forest);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  font-family: var(--font-family);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-forest);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  margin-block-end: var(--space-xl);
+}
+
+.scenario-detail__back:hover {
+  background: var(--color-forest);
+  color: var(--color-white);
+}
+
+.scenario-detail__back:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* --- Welcome banner --- */
+.scenario-detail__welcome {
+  background: linear-gradient(
+    135deg,
+    var(--color-forest) 0%,
+    var(--color-forest-light) 100%
+  );
+  color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl) var(--space-2xl);
+  margin-block-end: var(--space-2xl);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-relaxed);
+  box-shadow: var(--shadow-md);
+}
+
+.scenario-detail__welcome p {
+  color: var(--color-white) !important;
+  margin: 0;
+}
+
+/* --- Stepper Progress Indicator --- */
+.scenario-stepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-block-end: var(--space-xl);
+  max-width: 600px;
+  margin-inline: auto;
+  padding-inline: var(--space-sm);
+}
+
+.scenario-stepper::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  left: var(--space-lg);
+  right: var(--space-lg);
+  height: 3px;
+  background: var(--color-cream-dark);
+  z-index: 0;
+}
+
+.scenario-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 70px;
+}
+
+.scenario-step__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-white);
+  border: 2px solid var(--color-cream-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.scenario-step__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  transition: color var(--transition-base);
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Active & Hover states */
+.scenario-step:hover .scenario-step__icon {
+  border-color: var(--color-gold-light);
+  transform: scale(1.05);
+}
+
+.scenario-step--active .scenario-step__icon {
+  background: var(--color-forest);
+  border-color: var(--color-gold);
+  color: var(--color-white);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.scenario-step--active .scenario-step__label {
+  color: var(--color-forest);
+  font-weight: 700;
+}
+
+/* Completed state */
+.scenario-step--completed .scenario-step__icon {
+  border-color: var(--color-forest-light);
+  background: rgba(45, 106, 79, 0.08);
+}
+
+.scenario-step--completed .scenario-step__label {
+  color: var(--color-forest-light);
+}
+
+/* --- Carousel Card --- */
+.scenario-carousel {
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.scenario-card-detail {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-height: 250px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.scenario-card-detail--transitioning {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.scenario-card-detail__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  border-block-end: 2px solid var(--color-cream);
+  padding-block-end: var(--space-md);
+}
+
+.scenario-card-detail__icon {
+  font-size: 2.2rem;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.scenario-card-detail__title {
+  font-size: var(--font-size-lg);
+  color: var(--color-forest);
+  font-weight: 700;
+  margin: 0;
+}
+
+.scenario-card-detail__body {
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text);
+  flex: 1;
+}
+
+.scenario-card-detail__body p {
+  color: var(--color-text);
+  margin: 0;
+}
+
+.scenario-card-detail__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: var(--space-lg);
+  padding-block-start: var(--space-md);
+  border-block-start: 1px solid var(--color-cream);
+}
+
+/* Navigation Buttons */
+.scenario-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-forest-light);
+  color: var(--color-forest-light);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  background: transparent;
+}
+
+.scenario-nav-btn:hover:not(:disabled) {
+  background: var(--color-forest-light);
+  color: var(--color-white);
+  transform: translateY(-1px);
+}
+
+.scenario-nav-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.scenario-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: var(--color-cream-dark);
+  color: var(--color-text-muted);
+}
+
+.scenario-nav-btn--primary {
+  background: var(--color-forest);
+  color: var(--color-white);
+  border-color: var(--color-forest);
+}
+
+.scenario-nav-btn--primary:hover:not(:disabled) {
+  background: var(--color-forest-light);
+  border-color: var(--color-forest-light);
+}
+
+.nav-arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Dots Indicator */
+.scenario-dots {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.scenario-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-cream-dark);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--transition-fast);
+}
+
+.scenario-dot--active {
+  background: var(--color-gold);
+  transform: scale(1.25);
+  box-shadow: 0 0 8px rgba(212, 168, 67, 0.4);
+}
+
+/* --- Header --- */
+.scenario-detail__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-block-end: var(--space-xl);
+}
+
+.scenario-detail__icon {
+  font-size: 2.5rem;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.scenario-detail__title {
+  font-size: var(--font-size-xl);
+  color: var(--color-forest);
+  font-weight: 700;
+}
+
+.scenario-detail__welcome-icon {
+  font-size: 2rem;
+  margin-block-end: var(--space-sm);
+  display: flex;
+  flex-shrink: 0;
+}
+
+.scenario-detail__back-arrow {
+  display: inline-block;
+  transition: transform var(--transition-fast);
+}
+
+.scenario-detail__back:hover .scenario-detail__back-arrow {
+  transform: translateX(4px);
+}
+
+/* --- Content fading --- */
+.scenario-detail__content--fading {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* --- Motivational banner --- */
+.scenario-detail__motivation {
+  margin-block-start: var(--space-2xl);
+  background: linear-gradient(
+    135deg,
+    var(--color-gold) 0%,
+    var(--color-gold-light) 100%
+  );
+  color: var(--color-dark);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl) var(--space-2xl);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  text-align: center;
+  line-height: var(--line-height-relaxed);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.scenario-detail__motivation-badge {
+  display: block;
+  font-size: var(--font-size-3xl);
+  margin-block-end: var(--space-sm);
+}
+
+/* --- Reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .scenario-detail {
+    animation: none;
+  }
+
+  .scenario-card-detail {
+    transition: none;
+    transform: none;
+  }
+
+  .scenario-step__icon {
+    transition: none;
+    transform: none;
+  }
+
+  .scenario-step:hover .scenario-step__icon {
+    transform: none;
+  }
+
+  .scenario-step--active .scenario-step__icon {
+    transform: none;
+  }
+
+  .scenario-nav-btn {
+    transition: none;
+  }
+
+  .scenario-dot {
+    transition: none;
+  }
+
+  .scenario-detail__back {
+    transition: none;
+  }
+}
+
+/* --- Responsive --- */
+@media (max-width: 767px) {
+  .scenario-detail {
+    padding-block: var(--space-2xl);
+    padding-inline: var(--space-md);
+  }
+
+  .scenario-detail__welcome {
+    padding: var(--space-lg);
+    font-size: var(--font-size-base);
+  }
+
+  .scenario-card-detail {
+    padding: var(--space-lg);
+    min-height: 220px;
+    gap: var(--space-md);
+  }
+
+  .scenario-card-detail__title {
+    font-size: var(--font-size-md);
+  }
+
+  .scenario-card-detail__icon {
+    font-size: 1.8rem;
+  }
+
+  .scenario-nav-btn {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-xs);
+  }
+
+  .scenario-step__label {
+    display: none; /* Hide labels on small screens to fit width */
+  }
+
+  .scenario-step {
+    width: auto;
+  }
+
+  .scenario-stepper::before {
+    top: 22px;
+  }
+
+  .scenario-detail__motivation {
+    padding: var(--space-lg);
+    font-size: var(--font-size-base);
+  }
+
+  .scenario-detail__header {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-xs);
+  }
+}

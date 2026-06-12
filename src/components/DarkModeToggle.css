@@ -1,0 +1,108 @@
+/* ===================================================
+   DarkModeToggle — زر تبديل المظهر
+   =================================================== */
+
+.theme-toggle-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: var(--z-nav);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-glass-strong);
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--color-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-base),
+    background-color var(--transition-base),
+    color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.08) rotate(8deg);
+  background: var(--color-white);
+  color: var(--color-gold);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.2px;
+  transition: transform var(--transition-slow);
+}
+
+/* Animations */
+.moon-icon {
+  animation: moon-intro 0.5s ease both;
+}
+
+.sun-icon {
+  animation: sun-intro 0.5s ease both;
+  color: var(--color-gold);
+}
+
+@keyframes moon-intro {
+  from {
+    transform: rotate(-90deg) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sun-intro {
+  from {
+    transform: rotate(90deg) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive adjust */
+@media (max-width: 480px) {
+  .theme-toggle-btn {
+    top: 16px;
+    left: 16px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .theme-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle-btn {
+    transition: none !important;
+  }
+  
+  .theme-toggle-btn:hover {
+    transform: none;
+  }
+  
+  .theme-icon {
+    animation: none !important;
+  }
+}

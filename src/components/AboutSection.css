@@ -1,0 +1,177 @@
+/* ===================================================
+   AboutSection — Styles
+   =================================================== */
+
+/* --- Section --- */
+.about {
+  background-color: var(--color-cream);
+  overflow: hidden;
+}
+
+.about__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xl);
+  max-width: 1000px;
+}
+
+/* --- Header --- */
+.about__header {
+  text-align: center;
+}
+
+/* --- Glassmorphism Description Card --- */
+.about__glass-card {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 168, 67, 0.4),
+    rgba(45, 106, 79, 0.25),
+    rgba(212, 168, 67, 0.15)
+  );
+}
+
+.about__glass-inner {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 241, 232, 0.85),
+    rgba(255, 255, 255, 0.7)
+  );
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: calc(var(--radius-lg) - 2px);
+  padding: var(--space-2xl);
+  border: 1px solid rgba(212, 168, 67, 0.12);
+}
+
+.about__description {
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text);
+  text-align: center;
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+/* --- Feature Cards Grid --- */
+.about__features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+  width: 100%;
+}
+
+.about-feature {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl) var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  cursor: default;
+}
+
+.about-feature:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-md);
+}
+
+.about-feature:active {
+  transform: scale(1);
+}
+
+/* Icon Circle */
+.about-feature__icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    135deg,
+    var(--color-gold-dim, rgba(212, 168, 67, 0.15)),
+    rgba(212, 168, 67, 0.08)
+  );
+  margin-block-end: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.about-feature__title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-forest);
+}
+
+.about-feature__desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-base);
+}
+
+/* ===================================================
+   Responsive — Desktop (4-column features)
+   =================================================== */
+@media (min-width: 768px) {
+  .about__features {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .about__glass-inner {
+    padding: var(--space-3xl);
+  }
+
+  .about__description {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* Small screens — tighter spacing */
+@media (max-width: 480px) {
+  .about__container {
+    gap: var(--space-xl);
+  }
+
+  .about__glass-inner {
+    padding: var(--space-lg);
+  }
+
+  .about__features {
+    gap: var(--space-md);
+  }
+
+  .about-feature {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .about-feature__icon {
+    width: 52px;
+    height: 52px;
+    font-size: 1.4rem;
+  }
+}
+
+/* ===================================================
+   Reduced Motion
+   =================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .about-feature {
+    transition: none;
+  }
+
+  .about-feature:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,121 @@
+/* ===================================================
+   SkillsMapCard — خريطة مهارات سوريا الجغرافية
+   =================================================== */
+
+.skills-map-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: var(--space-3xl);
+  padding-inline: var(--space-lg);
+}
+
+.skills-map-card {
+  max-width: 600px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.skills-map-card__inner {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl) var(--space-xl);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Decorative SVG Illustration --- */
+.skills-map-card__illustration {
+  width: 100px;
+  height: 100px;
+  margin-block-end: var(--space-sm);
+  animation: map-float 4s ease-in-out infinite;
+}
+
+.skills-map-card__svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes map-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* --- Title --- */
+.skills-map-card__title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.skills-map-card__emoji {
+  font-size: var(--font-size-2xl);
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(212, 168, 67, 0.3));
+}
+
+/* --- Description --- */
+.skills-map-card__description {
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  max-width: 480px;
+  text-align: center;
+}
+
+/* --- Location Badge --- */
+.skills-map-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  background: linear-gradient(135deg, var(--color-forest) 0%, var(--color-forest-light) 100%);
+  color: var(--color-white);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  margin-block-start: var(--space-sm);
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+  .skills-map-card__inner {
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .skills-map-card__title {
+    font-size: var(--font-size-lg);
+  }
+
+  .skills-map-card__description {
+    font-size: var(--font-size-base);
+  }
+
+  .skills-map-card__illustration {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .skills-map-card__illustration {
+    animation: none;
+  }
+}

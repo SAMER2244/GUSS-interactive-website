@@ -1,0 +1,78 @@
+/* ===================================================
+   Footer — تذييل الصفحة
+   =================================================== */
+
+.footer {
+  background: var(--color-forest);
+  color: var(--color-cream);
+  padding: var(--space-2xl) var(--space-lg);
+  margin-top: auto;
+}
+
+/* --- Golden Divider --- */
+.footer__divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light));
+  border-radius: var(--radius-full);
+  margin-inline: auto;
+  margin-block-end: var(--space-xl);
+}
+
+/* --- Content --- */
+.footer__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  text-align: center;
+}
+
+/* --- Logo --- */
+.footer__logo {
+  max-width: 60px;
+  height: auto;
+  opacity: 0.85;
+  margin-block-end: var(--space-sm);
+  transition: opacity var(--transition-fast);
+}
+
+.footer__logo:hover {
+  opacity: 1;
+}
+
+/* --- Text --- */
+.footer__text {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-cream);
+  line-height: var(--line-height-base);
+}
+
+/* --- Copyright --- */
+.footer__copyright {
+  font-size: var(--font-size-xs);
+  color: var(--color-cream-dark);
+  opacity: 0.6;
+  margin-block-start: var(--space-xs);
+}
+
+/* --- Dark Theme Footer Overrides --- */
+:root[data-theme='dark'] .footer {
+  background: #1F4A37;
+  color: #FFFFFF;
+  border-block-start: 1px solid rgba(221, 181, 87, 0.15);
+}
+
+:root[data-theme='dark'] .footer__divider {
+  background: linear-gradient(90deg, #DDB557, #ECD293);
+}
+
+:root[data-theme='dark'] .footer__text {
+  color: #FFFFFF;
+}
+
+:root[data-theme='dark'] .footer__copyright {
+  color: #DDB557;
+  opacity: 0.85;
+}

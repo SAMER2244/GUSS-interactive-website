@@ -1,21 +1,19 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
-import ChallengeSection from './components/ChallengeSection';
-import ScenarioDetail from './components/ScenarioDetail';
+import DetectiveActivity from './components/DetectiveActivity';
 import SkillsMapCard from './components/SkillsMapCard';
 import FeedbackSection from './components/FeedbackSection';
 import DarkModeToggle from './components/DarkModeToggle';
 import FloatingButtons from './components/FloatingButtons';
+import SahrMascot from './components/SahrMascot';
 import Footer from './components/Footer';
 
 /**
  * App — Main application component
- * Manages the scenario selection state and scroll-reveal logic.
+ * Manages the scroll-reveal logic.
  */
 function App() {
-  const [selectedScenario, setSelectedScenario] = useState(null);
-
   // Global scroll-reveal observer
   useEffect(() => {
     const revealElements = document.querySelectorAll('.reveal');
@@ -39,28 +37,6 @@ function App() {
     revealElements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [selectedScenario]); // Re-run when scenario changes to observe new elements
-
-  const handleSelectScenario = useCallback((id) => {
-    setSelectedScenario(id);
-    // Wait for state update then scroll smoothly to the scenario details section
-    setTimeout(() => {
-      const detailSection = document.getElementById('scenario-detail');
-      if (detailSection) {
-        detailSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
-  }, []);
-
-  const handleBackToChallenge = useCallback(() => {
-    setSelectedScenario(null);
-    // Wait for state update then scroll to challenge section
-    setTimeout(() => {
-      const challengeSection = document.getElementById('challenge');
-      if (challengeSection) {
-        challengeSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
   }, []);
 
   return (
@@ -68,20 +44,12 @@ function App() {
       <DarkModeToggle />
       <HeroSection />
       <AboutSection />
-
-      {selectedScenario ? (
-        <ScenarioDetail
-          scenarioId={selectedScenario}
-          onBack={handleBackToChallenge}
-        />
-      ) : (
-        <ChallengeSection onSelectScenario={handleSelectScenario} />
-      )}
-
+      <DetectiveActivity />
       <SkillsMapCard />
       <FeedbackSection />
       <Footer />
       <FloatingButtons />
+      <SahrMascot />
     </>
   );
 }

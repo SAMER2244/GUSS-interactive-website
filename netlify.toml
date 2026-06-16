@@ -1,0 +1,4 @@
+[build]
+  base = "src_project"
+  command = "npm run build"
+  publish = "dist"

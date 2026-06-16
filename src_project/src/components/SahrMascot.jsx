@@ -33,15 +33,13 @@ const SECTION_MESSAGES = {
   'skills-map': {
     icon: '🗺️',
     messages: [
-      'هذه خريطة المهارات — اكتشف ما ستكتسبه من خلال تجربتك في الاتحاد!',
-      'كل مهارة هنا مبنية على تجارب حقيقية وأنشطة فعلية نفّذها الاتحاد.',
+      'هذه خريطة المهارات شاركنا ما الذي تريد اكتسابه ضمن رحلتك التطوعية؟',
     ],
   },
   feedback: {
     icon: '📝',
     messages: [
-      'رأيك مهم جداً لنا! شارك في الاستبيان السريع — 30 ثانية فقط 🕐',
-      'لديك اقتراح؟ صندوق الاقتراحات مفتوح دائماً. لا فكرة صغيرة! 💡',
+      'من خلال هذا الاستبيان يمكنك ممارسة دورك كمقيم للملتقى لا تتردد!',
     ],
   },
   footer: {
@@ -59,6 +57,9 @@ const getInitialPos = () => ({
   y: window.innerHeight - 200,
 });
 
+/* ترتيب الأقسام للتنقل */
+const SECTION_ORDER = ['hero', 'about', 'detective-section', 'skills-map', 'feedback', 'footer'];
+
 /* ══════════════════════════════════════════════════════════
    المكوّن الرئيسي
    ══════════════════════════════════════════════════════════ */
@@ -70,7 +71,8 @@ function SahrMascot() {
   const [isTyping, setIsTyping]     = useState(false);
   const [activeSection, setActiveSection] = useState(null);
   const [msgIndex, setMsgIndex]     = useState(0);
-  const [hasGreeted, setHasGreeted] = useState(false);
+
+  const activeSectionRef = useRef(null);
 
   /* موضع السحب */
   const [pos, setPos] = useState(getInitialPos);
@@ -82,6 +84,19 @@ function SahrMascot() {
 
   const typingTimer    = useRef(null);
   const autoCloseTimer = useRef(null);
+
+  /* ── تتبع القسم النشط في مرجع فوري ── */
+  useEffect(() => {
+    activeSectionRef.current = activeSection;
+  }, [activeSection]);
+
+  /* ── مؤقت الظهور الأولي للبومة ── */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   /* ── العد التنازلي للإغلاق ── */
   const scheduleAutoClose = useCallback(() => {
@@ -116,17 +131,14 @@ function SahrMascot() {
     typeMessage(data.messages[idx % data.messages.length]);
   }, [typeMessage]);
 
-  /* ── مراقب التمرير ── */
+  /* ── مراقب التمرير والترحيب الأولي عند ظهور البومة ── */
   useEffect(() => {
-    const appearTimer = setTimeout(() => {
-      setIsVisible(true);
-      if (!hasGreeted) {
-        setHasGreeted(true);
-        setActiveSection('hero');
-        setMsgIndex(0);
-        showSectionMessage('hero', 0);
-      }
-    }, 1500);
+    if (!isVisible) return;
+
+    // ترحيب أولي بالبومة فور ظهورها
+    setActiveSection('hero');
+    setMsgIndex(0);
+    showSectionMessage('hero', 0);
 
     const observers = [];
     Object.keys(SECTION_MESSAGES).forEach((id) => {
@@ -134,7 +146,7 @@ function SahrMascot() {
       if (!el) return;
       const obs = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && id !== activeSectionRef.current) {
             setActiveSection(id);
             setMsgIndex(0);
             showSectionMessage(id, 0);
@@ -147,14 +159,19 @@ function SahrMascot() {
     });
 
     return () => {
-      clearTimeout(appearTimer);
       observers.forEach((o) => o.disconnect());
+    };
+  }, [isVisible, showSectionMessage]);
+
+  /* ── تنظيف المؤقتات والحدث عند الخروج من المكون ── */
+  useEffect(() => {
+    return () => {
       if (typingTimer.current)    clearTimeout(typingTimer.current);
       if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
       if (moveHandler.current) window.removeEventListener('pointermove', moveHandler.current);
       if (upHandler.current)   window.removeEventListener('pointerup',   upHandler.current);
     };
-  }, [hasGreeted, showSectionMessage]);
+  }, []);
 
   /* ══════════════════════════════════════════
      منطق السحب (Drag)
@@ -213,6 +230,25 @@ function SahrMascot() {
     }
   };
 
+  /* ── نقرة الانتقال للقسم التالي ── */
+  const handleNextSectionClick = (e) => {
+    e.stopPropagation();
+    if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
+
+    const currentIndex = SECTION_ORDER.indexOf(activeSection);
+    if (currentIndex !== -1 && currentIndex < SECTION_ORDER.length - 1) {
+      const nextSectionId = SECTION_ORDER[currentIndex + 1];
+      const nextSection = document.getElementById(nextSectionId);
+      if (nextSection) {
+        activeSectionRef.current = nextSectionId;
+        setActiveSection(nextSectionId);
+        setMsgIndex(0);
+        showSectionMessage(nextSectionId, 0);
+        nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
   const handleClose = (e) => {
     e.stopPropagation();
     if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
@@ -255,9 +291,9 @@ function SahrMascot() {
             {isTyping && <span className="mascot-cursor" aria-hidden="true">|</span>}
           </p>
 
-          {!isTyping && activeSection && SECTION_MESSAGES[activeSection]?.messages.length > 1 && (
-            <button className="mascot-bubble__more" onClick={handleOwlClick}>
-              رسالة أخرى ←
+          {!isTyping && activeSection && SECTION_ORDER.indexOf(activeSection) < SECTION_ORDER.length - 1 && (
+            <button className="mascot-bubble__more" onClick={handleNextSectionClick}>
+              القسم التالي ←
             </button>
           )}
 

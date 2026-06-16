@@ -4,9 +4,9 @@ const FEEDBACK_ITEMS = [
   {
     id: 'survey',
     icon: '📊',
-    title: 'الاستبيان السريع',
-    desc: 'شاركنا تقييمك السريع لأداء البوث ومخرجات الفعالية لنستمر في التطوير الممنهج.',
-    btnText: 'ابدأ الاستبيان السريع',
+    title: 'مارس دورك كمقيم للملتقى',
+    desc: 'من خلال هذا الاستبيان يمكنك ممارسة دورك كمقيم للملتقى ومشاركتنا تقييمك لمساعدتنا في التطوير والتحسين.',
+    btnText: 'ابدأ التقييم',
     href: 'https://docs.google.com/forms/d/e/1FAIpQLSfqy2IiGcGDbVv0MDB3AKHhvFsZOt6CuY9Iob96vLuh9DDvZw/viewform?usp=publish-editor',
     theme: 'survey'
   },

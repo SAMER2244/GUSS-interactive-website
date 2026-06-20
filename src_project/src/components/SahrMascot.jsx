@@ -36,6 +36,14 @@ const SECTION_MESSAGES = {
       'هذه خريطة المهارات شاركنا ما الذي تريد اكتسابه ضمن رحلتك التطوعية؟',
     ],
   },
+  'workshop-trigger': {
+    icon: '🏆',
+    messages: [
+      'هنا مدخل ورشة عمل المكاتب التفاعلية! اضغط على البطاقة لتنتقل لصفحة التحدي.',
+      'في الورشة ستعمل كفريق لقراءة سيناريوهات معقدة وصياغة تقرير رقابي كامل!',
+      'تحدي المقيم الذكي يتطلب مهارات نقدية عالية — هل أنتم جاهزون؟ 🏆',
+    ],
+  },
   feedback: {
     icon: '📝',
     messages: [
@@ -58,7 +66,8 @@ const getInitialPos = () => ({
 });
 
 /* ترتيب الأقسام للتنقل */
-const SECTION_ORDER = ['hero', 'about', 'detective-section', 'skills-map', 'feedback', 'footer'];
+const SECTION_ORDER = ['hero', 'about', 'detective-section', 'skills-map', 'workshop-trigger', 'feedback', 'footer'];
+
 
 /* ══════════════════════════════════════════════════════════
    المكوّن الرئيسي
@@ -124,7 +133,29 @@ function SahrMascot() {
 
   /* ── عرض رسالة قسم ── */
   const showSectionMessage = useCallback((sectionId, idx = 0) => {
-    const data = SECTION_MESSAGES[sectionId];
+    let data = SECTION_MESSAGES[sectionId];
+    if (sectionId === 'workshop-trigger') {
+      const isLocked = new Date() < new Date('2026-06-20T14:00:00');
+      if (isLocked) {
+        data = {
+          icon: '⏳',
+          messages: [
+            'تنبيه! هذه الفقرة مخصصة لورشة عمل المكاتب ضمن ملتقى صناع الأثر، وسيتم فتحها في تمام الساعة 14:00 ظهراً! ⏳',
+            'العد التنازلي بدأ! اجمعوا فريقكم وجهزوا أنفسكم، فالتحديات والسيناريوهات الرقابية الكبرى قادمة قريباً! 🏆',
+            'لا يمكن الدخول الآن، لكن ابقوا قريبين فالمنافسة ستنطلق في تمام الثانية ظهراً! 🦉✨'
+          ]
+        };
+      } else {
+        data = {
+          icon: '🏆',
+          messages: [
+            'الورشة مفتوحة الآن! اضغط على البطاقة لتنتقل لصفحة تحدي المقيم الذكي! 🏆',
+            'في الورشة ستعمل كفريق لقراءة سيناريوهات معقدة وصياغة تقرير رقابي كامل!',
+            'لديك 10 دقائق فقط لكتابة التقرير مع فريقك. أرونا مهاراتكم! 🔍'
+          ]
+        };
+      }
+    }
     if (!data) return;
     setCurrentIcon(data.icon);
     setIsOpen(true);

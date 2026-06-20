@@ -17,27 +17,6 @@ function WhatsAppIcon({ className }) {
   );
 }
 
-const SUB_BUTTONS = [
-  {
-    id: 'whatsapp',
-    emoji: 'whatsapp-svg',
-    label: 'تواصل واتساب',
-    href: 'https://wa.me/905077050570',
-  },
-  {
-    id: 'suggestions',
-    emoji: '💡',
-    label: 'صندوق الاقتراحات',
-    href: 'https://docs.google.com/forms/d/e/1FAIpQLSfHntZW8s4Tzm5KZMbrL1Niuv-CqC6_RtrE7SJnMqiHX2u0NA/viewform?usp=publish-editor',
-  },
-  {
-    id: 'survey',
-    emoji: '📊',
-    label: 'الاستبيان السريع',
-    href: 'https://docs.google.com/forms/d/e/1FAIpQLSfqy2IiGcGDbVv0MDB3AKHhvFsZOt6CuY9Iob96vLuh9DDvZw/viewform?usp=publish-editor',
-  },
-];
-
 function FloatingButtons() {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -45,12 +24,8 @@ function FloatingButtons() {
     setIsExpanded((prev) => !prev);
   }, []);
 
-  const handleSubClick = useCallback((href) => {
-    window.open(href, '_blank', 'noopener,noreferrer');
-  }, []);
-
   return (
-    <nav className="fab-container" aria-label="إجراءات سريعة">
+    <nav className="fab-container" aria-label="إجراءات التواصل">
       {/* Backdrop overlay */}
       {isExpanded && (
         <div
@@ -60,31 +35,25 @@ function FloatingButtons() {
         />
       )}
 
-      {/* Sub-buttons */}
-      <div className={`fab-sub-buttons ${isExpanded ? 'fab-sub-buttons--expanded' : ''}`}>
-        {SUB_BUTTONS.map((btn, index) => (
-          <div
-            key={btn.id}
-            className="fab-sub-item"
-            style={{ '--fab-index': index }}
+      {/* Popover card */}
+      {isExpanded && (
+        <div className="fab-popover-card">
+          <p className="fab-popover-text">
+            لديك أي استفسار؟
+            <br />
+            تواصل مع مسؤول المكتب
+          </p>
+          <a
+            href="https://wa.me/905077050570"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="fab-whatsapp-link-btn"
           >
-            <span className="fab-tooltip">{btn.label}</span>
-            <button
-              type="button"
-              className={`fab-sub-btn fab-sub-btn--${btn.id}`}
-              onClick={() => handleSubClick(btn.href)}
-              aria-label={btn.label}
-              tabIndex={isExpanded ? 0 : -1}
-            >
-              {btn.emoji === 'whatsapp-svg' ? (
-                <WhatsAppIcon className="fab-sub-whatsapp-icon" />
-              ) : (
-                <span className="fab-sub-emoji" aria-hidden="true">{btn.emoji}</span>
-              )}
-            </button>
-          </div>
-        ))}
-      </div>
+            <WhatsAppIcon className="fab-sub-whatsapp-icon" />
+            <span>تواصل واتساب</span>
+          </a>
+        </div>
+      )}
 
       {/* Main FAB */}
       <button
@@ -92,7 +61,7 @@ function FloatingButtons() {
         className={`fab-main ${isExpanded ? 'fab-main--expanded' : ''}`}
         onClick={toggleExpanded}
         aria-expanded={isExpanded}
-        aria-label={isExpanded ? 'إغلاق القائمة' : 'فتح القائمة'}
+        aria-label={isExpanded ? 'إغلاق نافذة التواصل' : 'فتح نافذة التواصل'}
       >
         <span className="fab-main__icon" aria-hidden="true">💬</span>
       </button>

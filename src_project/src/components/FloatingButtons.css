@@ -1,5 +1,5 @@
 /* ===================================================
-   FloatingButtons — أزرار الإجراءات السريعة
+   FloatingButtons — زر تواصل واتساب العائم
    =================================================== */
 
 /* --- Container --- */
@@ -9,17 +9,16 @@
   inset-inline-start: 24px;
   z-index: var(--z-fab);
   display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  gap: 0;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 /* --- Backdrop --- */
 .fab-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: -1;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1;
   animation: fab-fade-in 200ms ease forwards;
 }
 
@@ -70,7 +69,7 @@
 }
 
 .fab-main--expanded .fab-main__icon {
-  transform: rotate(45deg);
+  transform: rotate(15deg) scale(0.9);
 }
 
 /* Pulse animation */
@@ -83,113 +82,96 @@
   }
 }
 
-/* --- Sub-Buttons Container --- */
-.fab-sub-buttons {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  gap: var(--space-md);
-  margin-block-end: var(--space-md);
-  pointer-events: none;
-}
-
-.fab-sub-buttons--expanded {
-  pointer-events: auto;
-}
-
-/* --- Sub-Button Item --- */
-.fab-sub-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  opacity: 0;
-  transform: scale(0.4) translateY(20px);
-  transition:
-    opacity 250ms ease,
-    transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  transition-delay: calc(var(--fab-index, 0) * 80ms);
-}
-
-.fab-sub-buttons--expanded .fab-sub-item {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
-
-/* --- Sub Button --- */
-.fab-sub-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+/* --- Popover Card --- */
+.fab-popover-card {
+  position: absolute;
+  bottom: 72px; /* Positioned above the 56px main FAB + gap */
+  inset-inline-start: 0;
+  width: 260px;
   background: var(--color-white);
-  border: 2px solid var(--color-gold-dim);
-  cursor: pointer;
+  border: 1px solid var(--color-gold-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-lg);
   display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: center;
+  text-align: center;
+  z-index: 10;
+  animation: fab-popover-in 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: bottom left;
+}
+
+@keyframes fab-popover-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.fab-popover-text {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  line-height: var(--line-height-relaxed);
+  font-weight: 600;
+  margin: 0;
+}
+
+.fab-whatsapp-link-btn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-md);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.fab-sub-btn:hover {
-  transform: scale(1.1);
-  box-shadow: var(--shadow-lg);
-}
-
-.fab-sub-btn--whatsapp {
+  gap: var(--space-sm);
   background: #25D366;
-  border-color: #20BA5A;
   color: var(--color-white);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
 }
 
-.fab-sub-btn--whatsapp:hover {
+.fab-whatsapp-link-btn:hover {
   background: #20BA5A;
-  box-shadow: 0 0 16px rgba(37, 211, 102, 0.5) !important;
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(37, 211, 102, 0.4);
+}
+
+.fab-whatsapp-link-btn:active {
+  transform: translateY(0);
 }
 
 .fab-sub-whatsapp-icon {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   color: var(--color-white);
   display: flex;
 }
 
-.fab-sub-btn:active {
-  transform: scale(0.95);
-}
-
-.fab-sub-emoji {
-  font-size: 1.25rem;
-  line-height: 1;
-  display: flex;
-}
-
-/* --- Tooltip --- */
-.fab-tooltip {
+/* Arrow indicator at the bottom left (matching RTL) */
+.fab-popover-card::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  inset-inline-start: 20px;
+  width: 14px;
+  height: 14px;
   background: var(--color-white);
-  color: var(--color-forest);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  font-family: var(--font-family);
-  padding: var(--space-xs) var(--space-md);
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-md);
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateX(8px);
-  transition: opacity var(--transition-fast), transform var(--transition-fast);
-  /* Position to inline-end (left in RTL visual) */
-  order: 1;
-}
-
-[dir='rtl'] .fab-tooltip,
-.fab-tooltip {
-  order: -1;
-}
-
-.fab-sub-item:hover .fab-tooltip {
-  opacity: 1;
-  transform: translateX(0);
+  border-inline-start: 1px solid var(--color-gold-light);
+  border-bottom: 1px solid var(--color-gold-light);
+  transform: rotate(-45deg);
+  transform-origin: center;
 }
 
 /* --- Responsive --- */
@@ -204,13 +186,14 @@
     height: 50px;
   }
 
-  .fab-sub-btn {
-    width: 42px;
-    height: 42px;
+  .fab-popover-card {
+    bottom: 64px;
+    width: 230px;
+    padding: var(--space-sm);
   }
 
-  .fab-tooltip {
-    display: none;
+  .fab-popover-text {
+    font-size: var(--font-size-sm);
   }
 }
 
@@ -224,16 +207,11 @@
     transition: none;
   }
 
-  .fab-sub-item {
-    transition: none;
-  }
-
   .fab-backdrop {
     animation: none;
   }
 
-  .fab-sub-buttons--expanded .fab-sub-item {
-    opacity: 1;
-    transform: none;
+  .fab-popover-card {
+    animation: none;
   }
 }
